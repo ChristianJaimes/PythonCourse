@@ -1,0 +1,35 @@
+class Estudiante:
+    def __init__(self, nombre, notas):
+        self.nombre = nombre
+        self.notas = notas
+        self.promedio = self.calcular_promedio()  # ← promedio dentro del objeto
+
+    def calcular_promedio(self):
+        if len(self.notas) == 0:
+            return 0
+        return sum(self.notas) / len(self.notas)
+
+    def estado_final(self):
+        return "Aprobado" if self.promedio >= 3.0 else "Reprobado"
+
+    def mostrar_info(self):
+        estado = self.estado_final()
+        print(f"Nombre: {self.nombre}")
+        print(f"Notas: {self.notas}")
+        print(f"Promedio: {self.promedio:.2f}")
+        print(f"Estado: {estado}")
+        print("-" * 30)
+
+# Lista de estudiantes (objetos)
+estudiantes = [
+    Estudiante("Ara", [4.5, 3.8, 4.2]),
+    Estudiante("Luis", [3.2, 2.9, 3.5]),
+    Estudiante("Carlos", [5.0, 4.9, 5.0]),
+    Estudiante("María", [2.5, 3.0, 2.8]),
+    Estudiante("Valu", [4.0, 3.9, 4.1])  
+]
+
+# Mostrar la información de cada estudiante
+for estudiante in estudiantes:
+    estudiante.mostrar_info()
+
