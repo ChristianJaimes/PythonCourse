@@ -1,0 +1,180 @@
+import uuid
+
+# Inventario de clasificación por tipo de envío
+inventario = {
+    "express": [],
+    "standard": [],
+    "errores": []
+}
+
+# Inventario de productos en diccionario
+productos_inventario = {
+    "001": {"nombre": "Smartphone", "cantidad": 100, "precio": 300000, "peso": 0.3, "dimensiones": (15, 7, 1)},
+    "002": {"nombre": "Laptop", "cantidad": 100, "precio": 850000, "peso": 2.0, "dimensiones": (35, 25, 2)},
+    "003": {"nombre": "Tablet", "cantidad": 100, "precio": 250000, "peso": 0.5, "dimensiones": (25, 17, 1)},
+    "004": {"nombre": "Auriculares", "cantidad": 100, "precio": 45000, "peso": 0.2, "dimensiones": (10, 8, 5)},
+    "005": {"nombre": "Smartwatch", "cantidad": 100, "precio": 1200000, "peso": 0.1, "dimensiones": (5, 5, 2)},
+    "006": {"nombre": "Teclado mecánico", "cantidad": 100, "precio": 70000, "peso": 0.9, "dimensiones": (45, 15, 4)},
+    "007": {"nombre": "Mouse inalámbrico", "cantidad": 100, "precio": 25000, "peso": 0.15, "dimensiones": (10, 6, 4)},
+    "008": {"nombre": "Monitor", "cantidad": 100, "precio": 2000000, "peso": 5.0, "dimensiones": (60, 40, 10)},
+    "009": {"nombre": "Cámara digital", "cantidad": 100, "precio": 400000, "peso": 0.8, "dimensiones": (12, 7, 6)},
+    "010": {"nombre": "Cargador portátil", "cantidad": 100, "precio": 30000, "peso": 0.25, "dimensiones": (8, 4, 2)}
+}
+
+# Función de inicio de sesión
+def iniciar_sesion():
+    print("=== INICIO DE SESIÓN ===")
+    usuario = input("Usuario: ")
+    contraseña = input("Contraseña: ")
+
+    if usuario == "admin" and contraseña == "admin123":
+        print("Inicio de sesión exitoso. Rol: Administrador")
+        return "admin"
+    else:
+        print("Inicio de sesión como usuario básico.")
+        return "usuario"
+
+# Función para clasificar el paquete según su tipo de envío
+def clasificar_paquete(paquete):
+    tipo = paquete.get("tipo_envio", "").lower()
+
+    if tipo == "express":
+        paquete["estado"] = "clasificado - zona express"
+        inventario["express"].append(paquete)
+    elif tipo == "standard":
+        paquete["estado"] = "clasificado - zona standard"
+        inventario["standard"].append(paquete)
+    else:
+        paquete["estado"] = "error: tipo de envío inválido"
+        inventario["errores"].append(paquete)
+
+# Función para registrar un nuevo paquete
+def registrar_paquete():
+    print("\n--- REGISTRO DE PAQUETE ---")
+    id_paquete = str(uuid.uuid4())[:8]
+    print(f"ID generado para el paquete: {id_paquete}")
+
+    tipo_envio = input("Tipo de envío (Express / Standard): ")
+    destino = input("Destino: ")
+
+    print("\nProductos disponibles:")
+    for codigo, datos in productos_inventario.items():
+        print(f"  {codigo} - {datos['nombre']} | Stock: {datos['cantidad']} | Precio: ${datos['precio']}")
+
+    codigo_producto = input("Código del producto enviado: ").zfill(3)
+    producto_info = productos_inventario.get(codigo_producto)
+
+    if not producto_info:
+        print("\n[ERROR] Código de producto no válido.")
+        return
+    if producto_info["cantidad"] <= 0:
+        print("Error: No hay stock disponible para este producto.")
+        return
+
+    try:
+        cantidad_solicitada = int(input("Cantidad de unidades del producto a enviar: "))
+        if cantidad_solicitada <= 0:
+            print("Error: La cantidad debe ser mayor que cero.")
+            return
+        if cantidad_solicitada > producto_info["cantidad"]:
+            print("Error: No hay suficiente stock para esa cantidad.")
+            return
+    except ValueError:
+        print("Error: Ingresa un número entero válido.")
+        return
+    
+    peso = producto_info["peso"]
+    largo, ancho, alto = producto_info["dimensiones"]
+
+    print(f"[INFO] Usando datos del producto: Peso: {peso} kg, Dimensiones: {largo}x{ancho}x{alto} cm")
+
+    paquete = {
+        "id": id_paquete,
+        "tipo_envio": tipo_envio,
+        "destino": destino,
+        "producto": producto_info["nombre"],
+        "precio": producto_info["precio"],
+        "cantidad": cantidad_solicitada,
+        "peso": peso,
+        "dimensiones": (largo, ancho, alto)
+    }
+
+    clasificar_paquete(paquete)
+    if paquete["estado"] in ["clasificado- zona express", "clasificado - zona standard"]:
+        print(f"[OK] Paquete '{id_paquete}' registrado y clasificado como '{paquete['estado']}'.")
+        producto_info["cantidad"] -= cantidad_solicitada
+    else:
+        print(f"[ERROR] Paquete '{id_paquete}' no pudo ser clasificado. no se desconto en el inventario de productos.")
+
+# Función para generar un reporte del inventario clasificado
+def generar_reporte():
+    print("\n=== REPORTE DE INVENTARIO CLASIFICADO ===")
+    for tipo, paquetes in inventario.items():
+        print(f"\n{tipo.upper()} ({len(paquetes)} paquetes):")
+        for p in paquetes:
+            print(f"  - ID: {p['id']}, Producto: {p['producto']} x{p['cantidad']} (${p['precio']} c/u), Destino: {p['destino']}, Estado: {p['estado']}")
+
+# Función para mostrar el inventario actual de productos
+def mostrar_inventario_productos():
+    print("\n=== INVENTARIO DE PRODUCTOS TECNOLÓGICOS ===")
+    for codigo, datos in productos_inventario.items():
+        print(f"  {codigo} - {datos['nombre']} | Cantidad: {datos['cantidad']} | Precio: ${datos['precio']}")
+
+# Submenú exclusivo para admin
+def ver_pedidos_por_tipo_admin():
+    while True:
+        print("\n--- VER PEDIDOS POR TIPO DE ENVÍO (ADMIN) ---")
+        print("1. Ver pedidos Express")
+        print("2. Ver pedidos Standard")
+        print("3. Volver al menú principal")
+        opcion = input("Selecciona una opción: ")
+
+        if opcion == "1":
+            pedidos = inventario["express"]
+            print(f"\n>>> PEDIDOS EXPRESS ({len(pedidos)} encontrados):")
+            for p in pedidos:
+                print(f"  - ID: {p['id']}, Peso: {p['peso']} kg, Dimensiones (LxAxA): {p['dimensiones']} cm")
+        elif opcion == "2":
+            pedidos = inventario["standard"]
+            print(f"\n>>> PEDIDOS STANDARD ({len(pedidos)} encontrados):")
+            for p in pedidos:
+                print(f"  - ID: {p['id']}, Peso: {p['peso']} kg, Dimensiones (LxAxA): {p['dimensiones']} cm")
+        elif opcion == "3":
+            break
+        else:
+            print("Opción inválida. Intenta de nuevo.")
+
+# Menú principal con control de rol
+def menu():
+    rol = iniciar_sesion()
+
+    while True:
+        print("\n=== SISTEMA DE CLASIFICACIÓN DE PAQUETERÍA ===")
+        print("1. Registrar nuevo paquete")
+        print("2. Ver reporte de clasificación")
+        print("3. Ver inventario de productos")
+        if rol == "admin":
+            print("4. Ver pedidos por tipo (peso y dimensiones)")
+            print("5. Salir")
+        else:
+            print("4. Salir")
+
+        opcion = input("Selecciona una opción: ")
+
+        if opcion == "1":
+            registrar_paquete()
+        elif opcion == "2":
+            generar_reporte()
+        elif opcion == "3":
+            mostrar_inventario_productos()
+        elif opcion == "4" and rol == "admin":
+            ver_pedidos_por_tipo_admin()
+        elif (opcion == "4" and rol != "admin") or (opcion == "5" and rol == "admin"):
+            print("Saliendo del sistema. ")
+            break
+        else:
+            print("Opción inválida. Intenta de nuevo.")
+
+# Ejecutar el sistema
+if __name__ == "__main__":
+    menu()
