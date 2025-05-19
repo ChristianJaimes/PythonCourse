@@ -1,0 +1,252 @@
+# Maquina
+
+productos = [
+    "Lay's", "Doritos", "Chochlitos", "Cheetos",
+    "Mani", "Mani Moto", "Mani con Pasas", "Mani Mixto",
+    "Gala", "Chocorramo", "Gansito", "Browni",
+    "Pepsi", "Manzana", "Colombiana", "Uva"
+]
+
+precios = [
+    1000, 1500, 500, 900,
+    500, 700, 600, 800,
+    1000, 1800, 900, 2500,
+    1500, 1500, 1500, 1500
+]
+
+cantidades = [
+    5, 5, 5, 5,
+    5, 5, 5, 5,
+    5, 5, 5, 5,
+    5, 5, 5, 5
+]
+
+posiciones = [
+    "00", "01", "02", "03",
+    "11", "12", "13", "14",
+    "21", "22", "23", "24",
+    "31", "32", "33", "34"
+]
+
+ganancias_totales = 0
+admin_usuario = "Restrepo"
+admin_contrasena = "Dr650270207"
+
+def mostrar_menu_principal():
+    print("\n--- Menú Principal ---")
+    print("1. Retirar producto")
+    print("2. Modo Administrador")
+    print("3. Finalizar")
+
+def mostrar_menu_admin():
+    print("\n--- Menú Administrador ---")
+    print("1. Gestionar inventario")
+    print("2. Informes")
+    print("3. Configuración")
+    print("4. Regresar al menú principal")
+
+def autenticar_admin():
+    usuario = input("Usuario: ").strip()
+    contrasena = input("Contraseña: ").strip()
+    return usuario == admin_usuario and contrasena == admin_contrasena
+
+def retirar_producto():
+    print("\n--- Productos Disponibles ---")
+    for i in range(len(productos)):
+        print(f"{posiciones[i]}. {productos[i]} - ${precios[i]:,} (Cantidad: {cantidades[i]})")
+    
+    eleccion = input("\nSelecciona un producto: ").strip()
+    
+    if eleccion in posiciones:
+        indice = posiciones.index(eleccion)
+        if cantidades[indice] > 0:
+            cantidades[indice] -= 1
+            global ganancias_totales
+            ganancias_totales += precios[indice]
+            print(f"\nProducto '{productos[indice]}' retirado!")
+            print(f"Ganancia actual: ${ganancias_totales:,}")
+        else:
+            print("\n¡Producto agotado!")
+    else:
+        print("\nPosición no válida. Debe ser una de:", ", ".join(posiciones))
+
+def gestionar_inventario():
+    while True:
+        print("\n--- Gestión de Inventario ---")
+        print("1. Añadir unidad a producto existente")
+        print("2. Añadir nuevo producto")
+        print("3. Mostrar inventario actual")
+        print("4. Regresar al menú anterior")
+        
+        opcion = input("Selecciona una opción: ").strip()
+        
+        if opcion == "1":
+            print("\n--- Productos ---")
+            for i in range(len(productos)):
+                print(f"{posiciones[i]}. {productos[i]} (Cantidad: {cantidades[i]})")
+            
+            eleccion = input("\nSelecciona el producto: ").strip()
+            if eleccion in posiciones:
+                indice = posiciones.index(eleccion)
+                try:
+                    cantidad = int(input("Cantidad a añadir: "))
+                    if cantidad > 0:
+                        cantidades[indice] += cantidad
+                        print(f"\nSe añadieron {cantidad} unidades de '{productos[indice]}'")
+                        print(f"Nueva cantidad: {cantidades[indice]}")
+                    else:
+                        print("\nLa cantidad debe ser mayor a cero.")
+                except ValueError:
+                    print("\nError: La cantidad debe ser un número entero.")
+            else:
+                print("\nPosición no válida.")
+        
+        elif opcion == "2":
+            print("\n--- Añadir Nuevo Producto ---")
+            nombre = input("Nombre del nuevo producto: ").strip()
+            if nombre:
+                try:
+                    precio = int(input("Precio del nuevo producto: "))
+                    cantidad = int(input("Cantidad inicial: "))
+                    if precio > 0 and cantidad >= 0:
+                        productos.append(nombre)
+                        precios.append(precio)
+                        cantidades.append(cantidad)
+                        # Generar nueva posición (ejemplo simple)
+                        nueva_pos = str(len(posiciones)).zfill(2)
+                        posiciones.append(nueva_pos)
+                        print(f"\nProducto '{nombre}' añadido exitosamente con posición {nueva_pos}!")
+                    else:
+                        print("\nEl precio debe ser mayor a cero y la cantidad no puede ser negativa.")
+                except ValueError:
+                    print("\nError: Precio y cantidad deben ser números válidos.")
+            else:
+                print("\nEl nombre del producto no puede estar vacío.")
+        
+        elif opcion == "3":
+            print("\n----------------- Inventario Actual -----------------")
+            print("{:<5} {:<20} {:<10} {:<10}".format("Pos.", "Producto", "Precio", "Cantidad"))
+            print("-" * 45)
+            for i in range(len(productos)):
+                print("{:<5} {:<20} ${:<9,} {:<10}".format(posiciones[i], productos[i], precios[i], cantidades[i]))
+        
+        elif opcion == "4":
+            break
+        
+        else:
+            print("\nOpción no válida. Intenta de nuevo.")
+
+def informes():
+    while True:
+        print("\n--- Informes ---")
+        print("1. Informe de Ganancias Totales")
+        print("2. Informe de Ventas por Producto")
+        print("3. Informe de Productos Agotados")
+        print("4. Regresar al menú anterior")
+        
+        opcion = input("Selecciona una opción: ").strip()
+        
+        if opcion == "1":
+            print(f"\n--- Ganancias Totales ---\n${ganancias_totales:,}")
+        
+        elif opcion == "2":
+            print("\n--- Ventas por Producto ---")
+            print("{:<20} {:<10} {:<15} {:<15}".format("Producto", "Vendidos", "Precio Unit.", "Ganancia"))
+            print("-" * 60)
+            
+            for i in range(len(productos)):
+                vendidos = 5 - cantidades[i]  # Asumiendo 5 unidades iniciales
+                nombre = productos[i][:20]  # Limitar a 20 caracteres
+                print("{:<20} {:<10} ${:<14,} ${:<14,}".format(
+                    nombre, vendidos, precios[i], vendidos * precios[i]))
+        
+        elif opcion == "3":
+            print("\n--- Productos Agotados ---")
+            agotados = [productos[i] for i in range(len(productos)) if cantidades[i] == 0]
+            if agotados:
+                for producto in agotados:
+                    print(f"- {producto}")
+            else:
+                print("No hay productos agotados.")
+        
+        elif opcion == "4":
+            break
+        
+        else:
+            print("\nOpción no válida. Intenta de nuevo.")
+
+def configuracion():
+    while True:
+        print("\n--- Configuración ---")
+        print("1. Cambiar credenciales de administrador")
+        print("2. Restaurar valores de fábrica")
+        print("3. Regresar al menú anterior")
+        
+        opcion = input("Selecciona una opción: ").strip()
+        
+        if opcion == "1":
+            global admin_usuario, admin_contrasena
+            print("\n--- Cambiar Credenciales ---")
+            nuevo_usuario = input("Nuevo usuario: ").strip()
+            nueva_contrasena = input("Nueva contraseña: ").strip()
+            
+            if nuevo_usuario and nueva_contrasena:
+                admin_usuario = nuevo_usuario
+                admin_contrasena = nueva_contrasena
+                print("\nCredenciales actualizadas exitosamente!")
+            else:
+                print("\nEl usuario y la contraseña no pueden estar vacíos.")
+        
+        elif opcion == "2":
+            confirmacion = input("\n¿Estás seguro de restaurar los valores de fábrica? (si/no): ").lower()
+            if confirmacion == 'si':
+                global ganancias_totales
+                ganancias_totales = 0
+                for i in range(len(cantidades)):
+                    cantidades[i] = 5
+                print("\nValores restaurados a los predeterminados de fábrica.")
+        
+        elif opcion == "3":
+            break
+        
+        else:
+            print("\nOpción no válida. Intenta de nuevo.")
+
+def menu_administrador():
+    if not autenticar_admin():
+        print("\n¡Credenciales incorrectas!")
+        return
+    
+    while True:
+        mostrar_menu_admin()
+        opcion = input("Selecciona una opción: ").strip()
+        
+        if opcion == "1":
+            gestionar_inventario()
+        elif opcion == "2":
+            informes()
+        elif opcion == "3":
+            configuracion()
+        elif opcion == "4":
+            break
+        else:
+            print("\nOpción no válida. Intenta de nuevo.")
+
+def main():
+    print("\n--- Máquina Dispensadora ---")
+    
+    while True:
+        mostrar_menu_principal()
+        opcion = input("Selecciona una opción: ").strip()
+        
+        if opcion == "1":
+            retirar_producto()
+        elif opcion == "2":
+            menu_administrador()
+        elif opcion == "3":
+            print("\nGracias por usar el sistema. ¡Hasta pronto!")
+            break
+        else:
+            print("\nOpción no válida. Intenta de nuevo.")
+
+main()

@@ -1,0 +1,82 @@
+{
+    "Café Turco": {
+        "puntos_requeridos": 35,
+        "stock": 50
+    },
+    "Coca-Cola": {
+        "puntos_requeridos": 30,
+        "stock": 50
+    },
+    "Tinto Tradicional": {
+        "puntos_requeridos": 5,
+        "stock": 50
+    },
+    "Tinto Campesino": {
+        "puntos_requeridos": 6,
+        "stock": 50
+    },
+    "Café Americano": {
+        "puntos_requeridos": 5,
+        "stock": 50
+    },
+    "Café con Leche": {
+        "puntos_requeridos": 6,
+        "stock": 50
+    },
+    "Cappuccino Tradicional": {
+        "puntos_requeridos": 7,
+        "stock": 50
+    },
+    "Latte Frío (Vainilla Canela)": {
+        "puntos_requeridos": 8,
+        "stock": 50
+    },
+    "Mocca Frío": {
+        "puntos_requeridos": 8,
+        "stock": 50
+    },
+    "Espresso Frío": {
+        "puntos_requeridos": 6,
+        "stock": 50
+    },
+    "Chai Frío (Tradicional / Vainilla)": {
+        "puntos_requeridos": 7,
+        "stock": 50
+    },
+    "Té Matcha con Miel Frío": {
+        "puntos_requeridos": 9,
+        "stock": 50
+    },
+    "Nevado (varios sabores)": {
+        "puntos_requeridos": 10,
+        "stock": 50
+    },
+    "Almojábana": {
+        "puntos_requeridos": 4,
+        "stock": 50
+    },
+    "Arepa Rellena de Queso": {
+        "puntos_requeridos": 5,
+        "stock": 50
+    },
+    "Croissant Integral Multicereal": {
+        "puntos_requeridos": 5,
+        "stock": 50
+    },
+    "Muffin de Yogurt y Arándanos": {
+        "puntos_requeridos": 5,
+        "stock": 50
+    },
+    "Brownie": {
+        "puntos_requeridos": 6,
+        "stock": 50
+    },
+    "Cheesecake de Fresa": {
+        "puntos_requeridos": 7,
+        "stock": 50
+    },
+    "Café Especial": {
+        "puntos_requeridos": 7,
+        "stock": 50
+    }
+}

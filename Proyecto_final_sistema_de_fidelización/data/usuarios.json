@@ -1,0 +1,23 @@
+{
+    "Ashly": {
+        "correo": "ashlyperez@gmail.com",
+        "contrasena": "53509353f4af3c3394e85e93e57961d9e6d7c1df29a986a60ff9dc89e16b3282",
+        "puntos": 63,
+        "descuento_activo": false,
+        "fecha_registro": "2025-05-16"
+    },
+    "Miguel": {
+        "correo": "miguelcontreras@gmail.com",
+        "contrasena": "04a7b6dfe803c27800b0fb1f2c2b34f73dbbc269fac030356139071fe2d1c45b",
+        "puntos": 4,
+        "descuento_activo": false,
+        "fecha_registro": "2025-05-18"
+    },
+    "Christian": {
+        "correo": "christianjaimes@gmail.com",
+        "contrasena": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "puntos": 83,
+        "descuento_activo": false,
+        "fecha_registro": "2025-05-18"
+    }
+}

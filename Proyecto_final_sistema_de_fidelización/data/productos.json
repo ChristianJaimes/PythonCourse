@@ -1,0 +1,110 @@
+[
+    {
+        "nombre": "Tinto Tradicional",
+        "precio": 3900,
+        "puntos": 5,
+        "stock": 100
+    },
+    {
+        "nombre": "Tinto Campesino",
+        "precio": 4500,
+        "puntos": 6,
+        "stock": 100
+    },
+    {
+        "nombre": "Café Americano",
+        "precio": 4900,
+        "puntos": 5,
+        "stock": 100
+    },
+    {
+        "nombre": "Café con Leche",
+        "precio": 5900,
+        "puntos": 6,
+        "stock": 100
+    },
+    {
+        "nombre": "Cappuccino Tradicional",
+        "precio": 6900,
+        "puntos": 7,
+        "stock": 100
+    },
+    {
+        "nombre": "Latte Frío (Vainilla Canela)",
+        "precio": 18900,
+        "puntos": 8,
+        "stock": 100
+    },
+    {
+        "nombre": "Mocca Frío",
+        "precio": 19900,
+        "puntos": 8,
+        "stock": 100
+    },
+    {
+        "nombre": "Espresso Frío",
+        "precio": 5900,
+        "puntos": 6,
+        "stock": 100
+    },
+    {
+        "nombre": "Chai Frío (Tradicional / Vainilla)",
+        "precio": 17900,
+        "puntos": 7,
+        "stock": 100
+    },
+    {
+        "nombre": "Té Matcha con Miel Frío",
+        "precio": 20900,
+        "puntos": 9,
+        "stock": 100
+    },
+    {
+        "nombre": "Nevado (varios sabores)",
+        "precio": 10650,
+        "puntos": 10,
+        "stock": 100
+    },
+    {
+        "nombre": "Almojábana",
+        "precio": 7900,
+        "puntos": 4,
+        "stock": 100
+    },
+    {
+        "nombre": "Arepa Rellena de Queso",
+        "precio": 7900,
+        "puntos": 5,
+        "stock": 100
+    },
+    {
+        "nombre": "Croissant Integral Multicereal",
+        "precio": 8900,
+        "puntos": 5,
+        "stock": 100
+    },
+    {
+        "nombre": "Muffin de Yogurt y Arándanos",
+        "precio": 8900,
+        "puntos": 5,
+        "stock": 100
+    },
+    {
+        "nombre": "Brownie",
+        "precio": 9300,
+        "puntos": 6,
+        "stock": 100
+    },
+    {
+        "nombre": "Cheesecake de Fresa",
+        "precio": 9900,
+        "puntos": 7,
+        "stock": 100
+    },
+    {
+        "nombre": "Café Especial",
+        "precio": 6000,
+        "puntos": 7,
+        "stock": 100
+    }
+]
