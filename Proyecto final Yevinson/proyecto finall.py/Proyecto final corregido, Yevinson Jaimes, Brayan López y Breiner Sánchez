@@ -1,4 +1,4 @@
-print("Bienvenidos a la plataforma de la agencia publica de empleo sena! ")
+print("Bienvenidos a la plataforma de la agencia publica de empleo Sena! ")
 usuarios = {}
 
 def registrar_aspirante(nombre):
@@ -24,9 +24,21 @@ def eliminar_aspirante(nombre):
     else:
         print("Operación cancelada.")
 
+def actualizar_aspirante(nombre):
+    print("\n--- Actualización de Datos ---")
+    historial_laboral = input("Actualizar historial laboral: ")
+    historial_academico = input("Actualizar historial académico: ")
+    contacto_aspirante = input("Actualizar contacto aspirante: ")
+    contraseña = input("Actualizar contraseña: ")
+    usuarios[nombre]["historial_laboral"] = historial_laboral
+    usuarios[nombre]["historial_academico"] = historial_academico
+    usuarios[nombre]["contacto_aspirante"] = contacto_aspirante
+    usuarios[nombre]["contraseña"] = contraseña
+    print("Datos actualizados exitosamente.")
+
 def menu_principal():
     while True:
-        print("plataforma agencia publica de empleo")
+        print("\n--- Plataforma Agencia Pública de Empleo ---")
         print("1. Ingresar como Aspirante")
         print("2. Ingresar como Empleador")
         print("3. Salir")
@@ -63,8 +75,7 @@ def menu_aspirante():
             opcion = input("Seleccione una opción: ")
 
             if opcion == "1":
-                 actualizar_aspirante(nombre)
-
+                actualizar_aspirante(nombre)
             elif opcion == "2":
                 confirmacion = input("¿Está seguro que desea eliminar su cuenta? (s/n): ").lower()
                 if confirmacion == "s":
@@ -74,22 +85,26 @@ def menu_aspirante():
                 break
             else:
                 print("Opción no válida. Intente de nuevo.")
-        
-
-def actualizar_aspirante(nombre):
-    print("\n--- Actualización de Datos ---")
-    historial_laboral = input("Actualizar historial laboral: ")
-    historial_academico = input("Actualizar historial académico: ")
-    contacto_aspirante = input("actualizar contacto aspirante:")
-    contraseña = input("actualizar contraseña:")
-    usuarios[nombre]["historial_laboral"] = historial_laboral
-    usuarios[nombre]["historial_academico"] = historial_academico
-    usuarios[nombre]["contacto_aspirante"] = contacto_aspirante
-    print("Datos actualizados exitosamente.")
 
 def menu_empleador():
-    print("\n--- Menú Empleador ---")
-    print("Lista de aspirantes registrados:")
+    while True:
+        print("\n--- Menú Empleador ---")
+        print("1. Ver lista de aspirantes")
+        print("2. Buscar aspirantes por palabra clave")
+        print("3. Volver al menú principal")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == "1":
+            mostrar_aspirantes()
+        elif opcion == "2":
+            filtrar_por_palabra_clave()
+        elif opcion == "3":
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
+def mostrar_aspirantes():
+    print("\nLista de aspirantes registrados:")
     aspirantes = [nombre for nombre, datos in usuarios.items() if datos["rol"] == "aspirante"]
 
     if not aspirantes:
@@ -108,10 +123,30 @@ def menu_empleador():
             print(f"\n--- Información de {nombre} ---")
             print("Historial Laboral:", datos["historial_laboral"])
             print("Historial Académico:", datos["historial_academico"])
-            print("contacto aspirante:", datos["contacto_aspirante"])
+            print("Contacto Aspirante:", datos["contacto_aspirante"])
         else:
             print("Selección inválida.")
     else:
-        print("Regresando al menú principal...")
+        print("Regresando al menú anterior...")
+
+def filtrar_por_palabra_clave():
+    palabra = input("Ingrese la palabra clave para buscar en los perfiles: ").lower()
+    encontrados = []
+
+    for nombre, datos in usuarios.items():
+        if datos["rol"] == "aspirante":
+            if palabra in datos["historial_laboral"].lower() or palabra in datos["historial_academico"].lower():
+                encontrados.append((nombre, datos))
+
+    if not encontrados:
+        print("No se encontraron aspirantes con esa palabra clave.")
+        return
+
+    print("\nAspirantes encontrados:")
+    for nombre, datos in encontrados:
+        print(f"\n--- {nombre} ---")
+        print("Historial Laboral:", datos["historial_laboral"])
+        print("Historial Académico:", datos["historial_academico"])
+        print("Contacto Aspirante:", datos["contacto_aspirante"])
 
 menu_principal()
